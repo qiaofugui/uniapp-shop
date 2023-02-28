@@ -35,6 +35,15 @@ $http.afterRequest = function() {
 	uni.hideLoading()
 }
 
+// 封装消息提示 uni.showToast() 方法，挂载到 uni 顶级对象之上
+uni.$showMsg = function(title = '数据加载失败', duration = 1500) {
+	uni.showToast({
+		title,
+		duration,
+		icon: 'none'
+	})
+}
+
 try {
 	function isPromise(obj) {
 		return (
