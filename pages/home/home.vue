@@ -4,10 +4,10 @@
 		<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
 			<!-- 循环轮播图的 item -->
 			<swiper-item v-for="(item, i) in swiperList" :key="i">
-				<view class="swiper-item">
+				<navigator class="swiper-item" :url="`/subpkg/goods_detail/goods_detail?goods_id=${item.goods_id}`">
 					<!-- 动态绑定图片 src 属性 -->
 					<image :src="item.image_src"></image>
-				</view>
+				</navigator>
 			</swiper-item>
 		</swiper>
 	</view>
