@@ -13,6 +13,12 @@
 			"path": "pages/my/my"
 		}
 	],
+	"subPackages": [{
+		"root": "subpkg",
+		"pages": [{
+			"path": "goods_detail/goods_detail"
+		}]
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "优购",
