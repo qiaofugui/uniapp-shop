@@ -1,14 +1,11 @@
 <template>
-	<view>Goods_detail</view>
+	<view>Goods_list</view>
 </template>
 
 <script>
 export default {
 	data() {
 		return {}
-	},
-	onShow(options) {
-		console.log(options)
 	}
 }
 </script>

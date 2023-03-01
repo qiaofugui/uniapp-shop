@@ -13,7 +13,8 @@ import {
 // 把 $http 挂载到 uni 顶级对象之上，方便全局调用
 uni.$http = $http
 // 配置请求根路径
-$http.baseUrl = 'https://api-hmugo-web.itheima.net'
+// $http.baseUrl = 'https://api-hmugo-web.itheima.net'
+$http.baseUrl = 'https://www.uinav.com'
 //请求拦截器 - 请求开始之前做一些事情
 $http.beforeRequest = function(options) {
 	// do somethimg...

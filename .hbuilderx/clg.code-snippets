@@ -7,7 +7,7 @@
 		"scope": "source.js",
 		"prefix": "logtwo",
 		"body": [
-			"console.log('$1');"
+			"console.log('$1')"
 		],
 		"triggerAssist": false,
 		"description": "Log output to console"

@@ -18,6 +18,32 @@
 				</navigator>
 			</swiper-item>
 		</swiper>
+
+		<!-- 分类导航区域 -->
+		<view class="nav-list">
+			<view class="nav-item" v-for="(item, i) in navList" :key="i" @click="navClickHandel(item)"><image :src="item.image_src" class="nav-img"></image></view>
+		</view>
+
+		<!-- 楼层区域 -->
+		<view class="floor-list">
+			<!-- 楼层 item 项 -->
+			<view class="floor-item" v-for="(item, i) in floorList" :key="i">
+				<!-- 楼层标题 -->
+				<image :src="item.floor_title.image_src" class="floor-title"></image>
+				<!-- 楼层图片区域 -->
+				<view class="floor-img-box">
+					<!-- 左侧大图片的盒子 -->
+					<navigator class="left-img-box" :url="item.product_list[0].url">
+						<image :src="item.product_list[0].image_src" :style="{ width: item.product_list[0].image_width + 'rpx' }" mode="widthFix"></image>
+					</navigator>
+					<!-- 右侧 4 个小图片的盒子 -->
+					<view class="right-img-box">
+					    <navigator class="right-img-item" v-for="(item2, i2) in item.product_list" :key="i2" v-if="i2 !== 0" :url="item2.url">
+					      <image :src="item2.image_src" mode="widthFix" :style="{width: item2.image_width + 'rpx'}"></image>
+					    </navigator>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -26,26 +52,81 @@ export default {
 	data() {
 		return {
 			// 轮播图数据列表
-			swiperList: []
-		};
+			swiperList: [],
+			// 分类导航数据列表
+			navList: [],
+			// 楼层数据列表
+			floorList: []
+		}
 	},
 	// 生命周期 页面刚加载
 	onLoad() {
-		this.getSwiperList();
+		this.getSwiperList()
+		this.getNavList()
+		this.getFlorList()
 	},
 	// 方法
 	methods: {
 		// 获取轮播图数据方法
 		async getSwiperList() {
 			// 发起请求
-			const { data: res } = await uni.$http.get('/api/public/v1/home/swiperdata');
+			const { data: res } = await uni.$http.get('/api/public/v1/home/swiperdata')
 			// 请求失败
-			if (res.meta.status !== 200) return uni.$showMsg();
+			if (res.meta.status !== 200) return uni.$showMsg()
 			// 请求成功，为 data 中的数据赋值
-			this.swiperList = res.message;
+			this.swiperList = res.message
+		},
+
+		// 获取分类导航数据方法
+		async getNavList() {
+			const { data: res } = await uni.$http.get('/api/public/v1/home/catitems')
+			if (res.meta.status !== 200) return uni.$showMsg()
+			this.navList = res.message
+		},
+
+		// 获取楼层列表数据方法
+		async getFlorList() {
+			const { data: res } = await uni.$http.get('/api/public/v1/home/floordata')
+			if (res.meta.status !== 200) return uni.$showMsg()
+			// 通过双层 forEach 循环，处理 URL 地址
+			res.message.forEach(floor => {
+				floor.product_list.forEach(prod => {
+					prod.url = '/subpkg/goods_list/goods_list?' + prod.navigator_url.split('?')[1]
+				})
+			})
+			this.floorList = res.message
+		},
+
+		// 点击分 nav-item 项的处理函数
+		navClickHandel(item) {
+			// 判断点击的是那个 分类
+			switch (item.name) {
+				case '分类':
+					uni.switchTab({
+						url: '/pages/cate/cate'
+					})
+					return
+				case '秒杀拍':
+					uni.navigateTo({
+						url: ''
+					})
+					return
+				case '超市购':
+					uni.navigateTo({
+						url: ''
+					})
+					return
+				case '母婴品':
+					uni.navigateTo({
+						url: ''
+					})
+					return
+				default:
+					break
+			}
 		}
 	}
-};
+}
 </script>
 
 <style lang="scss">
@@ -57,5 +138,33 @@ swiper {
 		width: 100%;
 		height: 100%;
 	}
+}
+
+.nav-list {
+	display: flex;
+	justify-content: space-around;
+	margin: 10px 0;
+
+	.nav-img {
+		width: 130rpx;
+		height: 140rpx;
+	}
+}
+
+.floor-title {
+	display: flex;
+	width: 100%;
+	height: 60rpx;
+}
+
+.right-img-box {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.floor-img-box {
+	display: flex;
+	padding-left: 10rpx;
 }
 </style>
