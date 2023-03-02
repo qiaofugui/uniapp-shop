@@ -58,7 +58,10 @@
 			"minified": true
 		},
 		"usingComponents": true,
-		"permission": {}
+		"permission": {},
+		"requiredPrivateInfos": [
+			"chooseAddress"
+		]
 	},
 	"mp-alipay": {
 		"usingComponents": true
