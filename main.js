@@ -17,9 +17,9 @@ import {
 // 把 $http 挂载到 uni 顶级对象之上，方便全局调用
 uni.$http = $http
 // 配置请求根路径
-$http.baseUrl = 'https://api-hmugo-web.itheima.net'
+// $http.baseUrl = 'https://api-hmugo-web.itheima.net'
 // $http.baseUrl = 'https://api-ugo-web.itheima.net'
-// $http.baseUrl = 'https://www.uinav.com'
+$http.baseUrl = 'https://www.uinav.com'
 //请求拦截器 - 请求开始之前做一些事情
 $http.beforeRequest = function(options) {
 	// do somethimg...
@@ -27,10 +27,12 @@ $http.beforeRequest = function(options) {
 	uni.showLoading({
 		title: '加载中...',
 	})
-	// 自定义 header 请求头：
-	if (options.url.indexOf('/home/catitems') !== -1) {
+	// 判断请求的是否为有权限的 API 接口
+	if (options.url.indexOf('/my/') !== -1) {
+		// 为请求头添加身份认证字段
 		options.header = {
-			// 'X-Test': 'AAA',
+			// 字段的值可以直接从 vuex 中进行获取
+			Authorization: 'Beare eyJhbGci0iJIUzcQiaofugui',
 		}
 	}
 }
